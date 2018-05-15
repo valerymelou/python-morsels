@@ -1,4 +1,4 @@
-def with_previous(sequence, **kwargs):
+def with_previous(iterable, **kwargs):
     """
     A function that accepts a sequence (a list for example) and returns a new
     iterable (anything you can loop over) that includes a tuple of each item
@@ -11,15 +11,7 @@ def with_previous(sequence, **kwargs):
     >>> with_previous([1, 2, 3])
     [(1, None), (2, 1), (3, 2)]
     """
-    output = []
-    first_previous = kwargs.get('fillvalue', None)
-    iterator = iter(sequence)
-    while True:
-        try:
-            item = next(iterator)
-            output.append((item, first_previous))
-            first_previous = item
-        except StopIteration:
-            break;
-    
-    return iter(output)
+    previous = kwargs.get('fillvalue', None)
+    for item in iterable:
+        yield item, previous
+        previous = item
